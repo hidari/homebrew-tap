@@ -1,0 +1,52 @@
+name: Update Formula
+
+on:
+  repository_dispatch:
+    types: [update-formula]
+  workflow_dispatch:
+    inputs:
+      formula:
+        description: 'Formula name (e.g., rip, love)'
+        required: true
+        type: string
+      version:
+        description: 'Version (e.g., v1.2.0)'
+        required: true
+        type: string
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set variables
+        id: vars
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            echo "formula=${{ github.event.client_payload.formula }}" >> $GITHUB_OUTPUT
+            echo "version=${{ github.event.client_payload.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "formula=${{ inputs.formula }}" >> $GITHUB_OUTPUT
+            echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update Formula
+        run: |
+          chmod +x ./scripts/update-formula.sh
+          ./scripts/update-formula.sh "${{ steps.vars.outputs.formula }}" "${{ steps.vars.outputs.version }}"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "feat: update ${{ steps.vars.outputs.formula }} to ${{ steps.vars.outputs.version }}"
+          title: "Update ${{ steps.vars.outputs.formula }} to ${{ steps.vars.outputs.version }}"
+          body: |
+            Automated Formula update triggered by release.
+
+            - Formula: `${{ steps.vars.outputs.formula }}`
+            - Version: `${{ steps.vars.outputs.version }}`
+          branch: update-${{ steps.vars.outputs.formula }}-${{ steps.vars.outputs.version }}
+          delete-branch: true
