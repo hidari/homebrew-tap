@@ -1,0 +1,28 @@
+# This workflow should be placed in your tool repository
+# Path: .github/workflows/update-homebrew-formula.yml
+#
+# Required setup:
+# 1. Create a Personal Access Token (PAT) with 'repo' scope
+# 2. Add it as a secret named HOMEBREW_TAP_TOKEN in your tool repository
+#
+name: Update Homebrew Formula
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  update-homebrew:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Homebrew Formula Update
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          repository: hidari/homebrew-tap  # Change to your homebrew-tap repository
+          event-type: update-formula
+          client-payload: |
+            {
+              "formula": "YOUR_FORMULA_NAME",
+              "version": "${{ github.event.release.tag_name }}"
+            }
