@@ -39,9 +39,9 @@ get_sha256() {
   local url=$1
   local tmpfile=$(mktemp)
 
-  echo "Downloading: $url"
+  echo "Downloading: $url" >&2
   if ! curl -sL -o "$tmpfile" "$url"; then
-    echo "Error: Failed to download $url"
+    echo "Error: Failed to download $url" >&2
     rm -f "$tmpfile"
     exit 1
   fi
