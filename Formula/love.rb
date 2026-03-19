@@ -1,14 +1,14 @@
 class Love < Formula
   desc "A lovely terminal heart animation (pronounced as 'trouble') 💜"
   homepage "https://github.com/hidari/tolove-ru"
-  version "1.1.0"
+  version "1.2.2"
 
   if OS.mac? && Hardware::CPU.intel?
     url "https://github.com/hidari/tolove-ru/releases/download/v#{version}/love-darwin-amd64-#{version}.tar.gz"
-    sha256 "7e1519ed6fd4aa7fe11e53521d2483d3841950bbfeb9d9285cb016a3185e8b41"
+    sha256 "39647030985c24923ccac4da7500a7b3e46a252e76a2abb6878ca426bb496288"
   elsif OS.mac? && Hardware::CPU.arm?
     url "https://github.com/hidari/tolove-ru/releases/download/v#{version}/love-darwin-arm64-#{version}.tar.gz"
-    sha256 "c7845ea63d96eb7c24a47473451f88e67b29b88652b4d601605614fa72c7ac42"
+    sha256 "443d507592b1f34947253a4af61bf8b402e44aad743eadfcad878dbe1b06223d"
   end
 
   def install
