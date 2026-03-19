@@ -14,6 +14,9 @@ on:
         required: true
         type: string
 
+permissions:
+  contents: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -37,16 +40,12 @@ jobs:
           chmod +x ./scripts/update-formula.sh
           ./scripts/update-formula.sh "${{ steps.vars.outputs.formula }}" "${{ steps.vars.outputs.version }}"
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "feat: update ${{ steps.vars.outputs.formula }} to ${{ steps.vars.outputs.version }}"
-          title: "Update ${{ steps.vars.outputs.formula }} to ${{ steps.vars.outputs.version }}"
-          body: |
-            Automated Formula update triggered by release.
-
-            - Formula: `${{ steps.vars.outputs.formula }}`
-            - Version: `${{ steps.vars.outputs.version }}`
-          branch: update-${{ steps.vars.outputs.formula }}-${{ steps.vars.outputs.version }}
-          delete-branch: true
+      - name: Commit and push
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@github.com"
+          git add Formula/
+          git diff --cached --quiet || (
+            git commit -m "feat: update ${{ steps.vars.outputs.formula }} to ${{ steps.vars.outputs.version }}"
+            git push
+          )
