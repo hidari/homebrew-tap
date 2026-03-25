@@ -5,10 +5,10 @@ class Rip < Formula
 
     if OS.mac? && Hardware::CPU.intel?
       url "https://github.com/hidari/rip-zip/releases/download/v#{version}/rip-zip-x86_64-apple-darwin.zip"
-      sha256 "869fc648a8a7aed24a76d771ea576160a4d0ffac17d2e94afab3259c5238c111" # バイナリのSHA256チェックサム
+      sha256 "952862ba531ee5fb2f6cab93da98aeafd6ecb73820915051e5ef6dbd7a6281e9" # バイナリのSHA256チェックサム
     elsif OS.mac? && Hardware::CPU.arm?
       url "https://github.com/hidari/rip-zip/releases/download/v#{version}/rip-zip-aarch64-apple-darwin.zip"
-      sha256 "513ed91ecfd584a0595364805d69334c9c534e17e7aa3df26894c807e922f5f8" # バイナリのSHA256チェックサム
+      sha256 "9f48d0b69805260a3015df1b87ba19e8bdaf3d5ecd12e55f0772d2199532baba" # バイナリのSHA256チェックサム
     end
 
     def install
