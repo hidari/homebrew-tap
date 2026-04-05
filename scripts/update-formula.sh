@@ -27,6 +27,10 @@ get_urls() {
       INTEL_URL="https://github.com/hidari/tolove-ru/releases/download/v${VERSION_NUM}/love-darwin-amd64-${VERSION_NUM}.tar.gz"
       ARM_URL="https://github.com/hidari/tolove-ru/releases/download/v${VERSION_NUM}/love-darwin-arm64-${VERSION_NUM}.tar.gz"
       ;;
+    relay)
+      INTEL_URL="https://github.com/hidari/relay/releases/download/v${VERSION_NUM}/relay-darwin-amd64-${VERSION_NUM}.tar.gz"
+      ARM_URL="https://github.com/hidari/relay/releases/download/v${VERSION_NUM}/relay-darwin-arm64-${VERSION_NUM}.tar.gz"
+      ;;
     *)
       echo "Error: Unknown formula: $FORMULA"
       exit 1
@@ -65,18 +69,9 @@ sed -i "s/version \"[^\"]*\"/version \"${VERSION_NUM}\"/" "$FORMULA_FILE"
 
 # Update SHA256 checksums
 # Find and replace the sha256 values based on architecture context
-case $FORMULA in
-  rip)
-    # For rip: intel comes first, then arm
-    sed -i "0,/sha256 \"[a-f0-9]\{64\}\"/s//sha256 \"${INTEL_SHA}\"/" "$FORMULA_FILE"
-    sed -i "0,/sha256 \"${INTEL_SHA}\"/! {0,/sha256 \"[a-f0-9]\{64\}\"/s//sha256 \"${ARM_SHA}\"/}" "$FORMULA_FILE"
-    ;;
-  love)
-    # For love: intel comes first, then arm
-    sed -i "0,/sha256 \"[a-f0-9]\{64\}\"/s//sha256 \"${INTEL_SHA}\"/" "$FORMULA_FILE"
-    sed -i "0,/sha256 \"${INTEL_SHA}\"/! {0,/sha256 \"[a-f0-9]\{64\}\"/s//sha256 \"${ARM_SHA}\"/}" "$FORMULA_FILE"
-    ;;
-esac
+# intel comes first, then arm
+sed -i "0,/sha256 \"[a-f0-9]\{64\}\"/s//sha256 \"${INTEL_SHA}\"/" "$FORMULA_FILE"
+sed -i "0,/sha256 \"${INTEL_SHA}\"/! {0,/sha256 \"[a-f0-9]\{64\}\"/s//sha256 \"${ARM_SHA}\"/}" "$FORMULA_FILE"
 
 echo "Updated $FORMULA_FILE:"
 cat "$FORMULA_FILE"
