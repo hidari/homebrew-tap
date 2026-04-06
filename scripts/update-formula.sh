@@ -28,8 +28,8 @@ get_urls() {
       ARM_URL="https://github.com/hidari/tolove-ru/releases/download/v${VERSION_NUM}/love-darwin-arm64-${VERSION_NUM}.tar.gz"
       ;;
     relay)
-      INTEL_URL="https://github.com/hidari/relay/releases/download/v${VERSION_NUM}/relay-darwin-amd64-${VERSION_NUM}.tar.gz"
-      ARM_URL="https://github.com/hidari/relay/releases/download/v${VERSION_NUM}/relay-darwin-arm64-${VERSION_NUM}.tar.gz"
+      INTEL_URL="https://github.com/hidari/homebrew-tap/releases/download/v${VERSION_NUM}/relay-darwin-amd64-${VERSION_NUM}.tar.gz"
+      ARM_URL="https://github.com/hidari/homebrew-tap/releases/download/v${VERSION_NUM}/relay-darwin-arm64-${VERSION_NUM}.tar.gz"
       ;;
     *)
       echo "Error: Unknown formula: $FORMULA"
