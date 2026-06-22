@@ -15,6 +15,11 @@ brew install hidari/tap/rip
 - rip
     - Handling cross-platform ZIP archives that just work everywhere. For more details, see [rip-zip](https://github.com/hidari/rip-zip).
 
+## Note on `todoke` (formerly `relay`)
+
+The `todoke` CLI (previously distributed here as `relay`) is no longer available via Homebrew.
+It now ships inside the Todoke desktop app — install it from the app's Settings → Command Line Tools.
+
 ## Automatic Formula Updates
 
 This repository supports automatic Formula updates when you publish a new release in your tool repository.
